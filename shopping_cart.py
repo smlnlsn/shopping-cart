@@ -1,5 +1,7 @@
 # shopping_cart.py
 
+import operator
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -35,4 +37,31 @@ def to_usd(my_price):
 
 # TODO: write some Python code here to produce the desired output
 
-print(products)
+user_input = ""
+product_scanned = -1
+valid_product = False
+purchases = []
+
+#### SECTION ONE: Recieve inputs from user. 
+
+while user_input != "DONE" : 
+    valid_product = False
+    product_scanned = -1
+    user_input = input("Please enter product identifier: ")
+    #input validation
+    for prod in products: 
+        if user_input == str(prod['id']):
+            product_scanned = prod['id'] - 1
+            valid_product = True
+    if valid_product:  
+        print(products[product_scanned]['name'],"added to cart.")
+        purchases.append(products[product_scanned])
+    else:
+        print("Invalid selection.")
+
+#### END SECTION ONE
+
+#### SECTION TWO: 
+print("Your purchases.")
+for purch in purchases:
+    print(purch['name'],",",to_usd(purch['price']))
