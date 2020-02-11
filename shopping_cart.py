@@ -1,6 +1,7 @@
 # shopping_cart.py
 
 import operator
+from datetime import datetime
 
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
@@ -41,8 +42,16 @@ user_input = ""
 product_scanned = -1
 valid_product = False
 purchases = []
+now = datetime.now()
+time_to_print = ""
+subtotal = 0.00
+final_total = 0.00
+
+TAX_RATE = 0.08
 
 #### SECTION ONE: Recieve inputs from user. 
+print("Welcome to the Register System 2000.")
+print("A new order has been commenced. Please enter identifying product numbers or 'DONE' when finished. Invalid responses will be rejected.")
 
 while user_input != "DONE" : 
     valid_product = False
@@ -56,12 +65,35 @@ while user_input != "DONE" :
     if valid_product:  
         print(products[product_scanned]['name'],"added to cart.")
         purchases.append(products[product_scanned])
+        subtotal += products[product_scanned]['price']
     else:
         print("Invalid selection.")
+
+final_total = subtotal * (1 + TAX_RATE)
+
+if now.hour > 12:
+    time_to_print = now.strftime("%I:%M") + " PM"
+else: 
+    time_to_print = now.strftime("%I:%M") + " AM"
 
 #### END SECTION ONE
 
 #### SECTION TWO: 
-print("Your purchases.")
+print(
+    "\n\n#############################################",
+    "\n         RECEIPT FROM SAM'S GROCERIES        ",
+    "\n#############################################",
+    "\n   CHECKOUT AT", now.date(), time_to_print,
+    "\n#############################################",
+    "\n           WWW.SAMSGROCERIES.COM",
+    "\n#############################################"
+    )
+print("             PURCHASE SUMMARY:")
 for purch in purchases:
-    print(purch['name'],",",to_usd(purch['price']))
+    print(f"- {purch['name']} ({to_usd(purch['price'])})")
+print("###########################################")
+print("      SUBTOTAL:", to_usd(subtotal))
+print("           TAX:", to_usd(subtotal * TAX_RATE))
+print("         TOTAL:", to_usd(final_total))
+print("###########################################")
+print("            THANK YOU! COME AGAIN!")
