@@ -47,16 +47,18 @@ time_to_print = ""
 subtotal = 0.00
 final_total = 0.00
 
-TAX_RATE = 0.08
+TAX_RATE = 0.0875
 
 #### SECTION ONE: Recieve inputs from user. 
 print("Welcome to the Register System 2000.")
 print("A new order has been commenced. Please enter identifying product numbers or 'DONE' when finished. Invalid responses will be rejected.")
 
+#loop waiting for end signal
 while user_input != "DONE" : 
     valid_product = False
     product_scanned = -1
     user_input = input("Please enter product identifier: ")
+    
     #input validation
     for prod in products: 
         if user_input == str(prod['id']):
@@ -69,16 +71,18 @@ while user_input != "DONE" :
     else:
         print("Invalid selection.")
 
+#calculates tax
 final_total = subtotal * (1 + TAX_RATE)
 
+#writes AM or PM into time string
 if now.hour > 12:
     time_to_print = now.strftime("%I:%M") + " PM"
 else: 
     time_to_print = now.strftime("%I:%M") + " AM"
 
-#### END SECTION ONE
 
-#### SECTION TWO: 
+
+#### SECTION TWO: Printing the receipt
 print(
     "\n\n#############################################",
     "\n         RECEIPT FROM SAM'S GROCERIES        ",
@@ -96,4 +100,4 @@ print("      SUBTOTAL:", to_usd(subtotal))
 print("           TAX:", to_usd(subtotal * TAX_RATE))
 print("         TOTAL:", to_usd(final_total))
 print("###########################################")
-print("            THANK YOU! COME AGAIN!")
+print("          THANK YOU! COME AGAIN!")
